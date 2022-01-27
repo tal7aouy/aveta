@@ -1,0 +1,54 @@
+{
+  "name": "aveta",
+  "version": "1.0.0",
+  "description": "Convert long numbers into abbreviated and  human-readable strings.",
+  "main": "build/aveta.js",
+  "types": "build/aveta.d.ts",
+  "author": "tal7aouy <talhaouycoding@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "test:coverage":"jest --coverage",
+    "lint": "eslint . --ext .ts --fix",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tal7aouy/aveta.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tal7aouy/aveta/issues"
+  },
+  "homepage": "https://github.com/tal7aouy/aveta#readme",
+  "keywords": [
+    "human",
+    "readable",
+    "easy",
+    "short numbers",
+    "big",
+    "large",
+    "numbers",
+    "beauty",
+    "human",
+    "format",
+    "thousand",
+    "million",
+    "billion",
+    "trillion",
+    "aveta"
+  ],
+  "devDependencies": {
+    "@types/jest": "^27.4.0",
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/parser": "^5.10.0",
+    "eslint": "^8.7.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^27.4.7",
+    "prettier": "^2.5.1",
+    "ts-jest": "^27.1.3",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
+  }
+}
