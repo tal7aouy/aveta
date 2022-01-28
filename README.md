@@ -5,29 +5,31 @@
 
 <h4 align="center">Convert long <mark style="color:brown; background:transparent;">numbers</mark>  into abbreviated and  human-readable <mark style="color:brown; background:transparent;">strings</mark> on an easy way.</h4>
 
-| Input :unamused: | Value :tada: |
-| ---------------- | ------------ |
-| `6000`           | `'6K'`       |
-| `10000`          | `'10km'`     |
-| `42500`          | `'42.5 kg'`  |
-| `1250000`        | `'1.25 MB'`  |
+| Input :disappointed: | Value :joy: |
+| -------------------- | ----------- |
+| `6000`               | `'6K'`      |
+| `10000`              | `'10km'`    |
+| `42500`              | `'42.5 kg'` |
+| `1250000`            | `'1.25 MB'` |
 
 ## Install
 
 ```bash
 npm install aveta
 ```
+
 ```bash
 yarn add  aveta
 ```
+
 ## Usage
 
- ```js
- aveta(value: number, options: IOptions)
- ```
+```js
+aveta(value: number, options: IOptions)
+```
 
 ```js
-import aveta from "aveta";
+import aveta from 'aveta';
 
 // For CommonJS: `const { aveta } = require("aveta");`
 
@@ -35,18 +37,18 @@ aveta(8700); // 8.7K
 
 aveta(2048000, {
   precision: 2,
-  lowercase: true
+  lowercase: true,
 });
 // 2.48m
 
 aveta(45500, {
-  precision: 3,  
-  separator: ","
+  precision: 3,
+  separator: ',',
 });
 // 4,550K
 
 aveta(1440000, {
-  units: ["B", "KB", "MB", "GB", "TB"],
+  units: ['B', 'KB', 'MB', 'GB', 'TB'],
   space: true,
 });
 // 1.44 MB
@@ -56,18 +58,19 @@ aveta(1440000, {
 
 | Name        | Type            | Default                              | Description                                             |
 | ----------- | --------------- | ------------------------------------ | ------------------------------------------------------- |
-| `precision` | `number`        | `1`                                  | Number of significant digits                        |
+| `precision` | `number`        | `1`                                  | Number of significant digits                            |
 | `separator` | `string`        | `'.'`                                | Desired decimal separator (e.g. decimal point or comma) |
 | `lowercase` | `boolean`       | `false`                              | Use lowercase abbreviations                             |
 | `space`     | `boolean`       | `false`                              | Add a space between number and abbreviation             |
 | `units`     | `Array<string>` | `['', 'K', 'M', 'B', 'T', 'P', 'E']` | Unit abbreviations                                      |
+
 ---
 
 **Units**
 
 `aveta` allows you custom your own units for your project.
 
-That is amazing  `aveta` ! :joy:
+That is amazing `aveta` ! :joy:
 
 ---
 
