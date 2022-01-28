@@ -7,14 +7,14 @@ const DIGIT_BASE = 1000;
  *
  * e.g. 1,000,000 is grouped in multiples of 1000.
  */
-function* divider(value: number): IterableIterator<number> {
+function* generator(value: number): IterableIterator<number> {
   // Create a mutable copy of the base.
   let divisor = DIGIT_BASE;
 
   while (true) {
     const result = value / divisor;
     if (result < 1) {
-      // End of operation. We can't divide the value any further.
+      //  We can't divide the value any further.
       return;
     }
 
@@ -78,7 +78,7 @@ function aveta(value: number, options?: Partial<IOptions>): string {
   // Keep dividing the input value by the digit grouping base
   // until the decimal and the unit index is deciphered.
   let unitIndex = 0;
-  for (const result of divider(val)) {
+  for (const result of generator(val)) {
     val = result;
     unitIndex += 1;
   }
@@ -93,8 +93,8 @@ function aveta(value: number, options?: Partial<IOptions>): string {
   // Round decimal up to desired precision.
   let rounded = roundTo(val, opts.precision);
 
-  // The rounded value needs another iteration in the divider(ganerator) cycle.
-  for (const result of divider(rounded)) {
+  // The rounded value needs another iteration in the generator(divider) cycle.
+  for (const result of generator(rounded)) {
     rounded = result;
     unitIndex += 1;
   }
