@@ -54,6 +54,15 @@ aveta(1440000, {
 // 1.44 MB
 ```
 
+### Cli
+
+```bash
+$ aveta 234000
+234K
+```
+
+See `aveta --help` for options.
+
 ## Default Options
 
 | Name        | Type            | Default                              | Description                                             |
