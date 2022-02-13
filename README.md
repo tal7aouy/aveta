@@ -54,7 +54,7 @@ aveta(1440000, {
 // 1.44 MB
 ```
 
-### Cli
+### Command Line
 
 ```bash
 $ aveta 234000
