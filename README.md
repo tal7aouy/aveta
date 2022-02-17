@@ -58,6 +58,8 @@ aveta(1440000, {
 
 ```bash
 $ aveta 234000
+// or
+$ npx aveta 234000
 234K
 ```
 
