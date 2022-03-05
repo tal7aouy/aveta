@@ -3,7 +3,7 @@
     <img src="icon.png" alt="logo" width="200">
 </h1>
 
-<h4 align="center">Convert long <mark style="color:brown; background:transparent;">numbers</mark>  into abbreviated and  human-readable <mark style="color:brown; background:transparent;">strings</mark> on an easy way.</h4>
+<h4 align="center">Convert long numbers into abbreviated and  human-readable strings on an easy way.</h4>
 
 | Input :disappointed: | Value :joy: |
 | -------------------- | ----------- |
@@ -14,9 +14,13 @@
 
 ## Install
 
+Get it on [npm](https://www.npmjs.com/package/aveta)
+
 ```bash
 npm install aveta
 ```
+
+Get it on [yarn](https://yarnpkg.com/package/aveta)
 
 ```bash
 yarn add  aveta
