@@ -44,7 +44,11 @@ aveta(123456, {
   lowercase: true,
 });
 // 123k
-
+aveta(4567, {
+  digits: 3,
+  lowercase: true,
+});
+// 4.57k
 aveta(2048000, {
   precision: 2,
   lowercase: true,
@@ -80,7 +84,7 @@ See `aveta --help` for options.
 | Name        | Type            | Default                              | Description                                             |
 | ----------- | --------------- | ------------------------------------ | ------------------------------------------------------- |
 | `precision` | `number`        | `1`                                  | Number of significant digits                            |
-| `digits`    | `number`        | `0`                                  | Number of  digits                            |
+| `digits`    | `number`        | `0`                                  | Number of digits                                        |
 | `separator` | `string`        | `'.'`                                | Desired decimal separator (e.g. decimal point or comma) |
 | `lowercase` | `boolean`       | `false`                              | Use lowercase abbreviations                             |
 | `space`     | `boolean`       | `false`                              | Add a space between number and abbreviation             |
