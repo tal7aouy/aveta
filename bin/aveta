@@ -17,6 +17,12 @@ yargs.command(
         type: 'number',
         default: 1,
       })
+      .option('digits', {
+        describe: 'Number of decimal',
+        alias: 'i',
+        type: 'number',
+        default: 0,
+      })
       .option('decimal', {
         describe: 'Decimal separator (mark)',
         alias: 'd',
@@ -42,6 +48,7 @@ yargs.command(
       })
       .example('$0 1000', 'Run with default options')
       .example('$0 15025 --precision 2', 'Set precision value')
+      .example('$0 15025 --digits 3', 'set maximum digits of number')
       .example('$0 1000 --lowercase --space', 'Lowercase and space set to true')
       .example('$0 1000 --decimal=","', 'Commas as decimal separator')
       .example('$0 1000 -u B -u KB -u MB -u GB', 'Specify units');

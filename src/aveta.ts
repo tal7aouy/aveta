@@ -42,17 +42,26 @@ function parseValue(value: number): number {
 /**
  * Rounds a number [value] up to a specified [precision].
  */
-function roundTo(value: number, precision: number): number {
+function roundTo(
+  value: number,
+  { precision, digits }: { precision: number; digits: number },
+): number {
   if (!Number.isFinite(value)) {
     throw new Error('Input value is not an infinite number');
   }
   if (!Number.isInteger(precision) || precision < 0) {
     throw new Error('Precision is not a positive integer');
   }
+  if (!Number.isInteger(digits) || digits < 0) {
+    throw new Error('Digits is not a positive integer');
+  }
   if (Number.isInteger(value)) {
     return value;
   }
-  return parseFloat(value.toFixed(precision));
+  // check if digits is great than 0
+  return digits > 0
+    ? parseFloat(value.toPrecision(digits))
+    : parseFloat(value.toFixed(precision));
 }
 
 /**
@@ -91,7 +100,7 @@ function aveta(value: number, options?: Partial<IOptions>): string {
   }
 
   // Round decimal up to desired precision.
-  let rounded = roundTo(val, opts.precision);
+  let rounded = roundTo(val, opts);
 
   // The rounded value needs another iteration in the generator(divider) cycle.
   for (const result of generator(rounded)) {

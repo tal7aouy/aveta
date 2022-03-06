@@ -3,6 +3,8 @@
  *
  * precision: number;
  *
+ * digits: number;
+ *
  * separator: string;
  *
  * lowercase: boolean;
@@ -16,6 +18,10 @@ export interface IOptions {
    * Number of significant digits.
    */
   precision: number;
+  /**
+   * maximum number of significant digits
+   */
+  digits: number;
   /**
    * The type of decimal marker (e.g. period ".").
    */
@@ -41,6 +47,7 @@ export const Options: IOptions = {
   separator: '.',
   lowercase: false,
   precision: 1,
+  digits: 0,
   space: false,
   units: [
     '', // < hundred
