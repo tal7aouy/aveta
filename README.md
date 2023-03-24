@@ -101,3 +101,7 @@ That is amazing `aveta` ! :joy:
 ---
 
 [MIT License](LICENSE)
+
+**Authors**
+
+[Mhammed Talhaouy](https://github.com/tal7aouy)
