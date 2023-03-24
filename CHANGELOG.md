@@ -20,4 +20,9 @@ All notable changes to this project will be documented in this file.
 
 - update readme
 - specify a maximum number of significant digits for a number
+ ## [1.3.0] (Mar-24-2023)
+
+- update readme
+- specify a maximum number of significant digits for a number
  
+
