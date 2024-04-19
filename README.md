@@ -96,8 +96,6 @@ See `aveta --help` for options.
 
 `aveta` allows you custom your own units for your project.
 
-That is amazing `aveta` ! :joy:
-
 ---
 
 [MIT License](LICENSE)
