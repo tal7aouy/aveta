@@ -1,4 +1,4 @@
-import {aveta,avetaReverse} from '../src/aveta';
+import { aveta, avetaReverse } from '../src/aveta';
 
 describe('aveta test', () => {
   it('returns a string', () => {
@@ -108,7 +108,6 @@ describe('aveta test', () => {
     // expect(()=>aveta(10000, { units: {} })).toThrow()
   });
 });
-
 
 describe('avetaReverse', () => {
   test('should correctly reverse basic formatted values', () => {
