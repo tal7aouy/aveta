@@ -1,3 +1,7 @@
+Here's the `README` for the Aveta library, with AvetaReverse included:
+
+---
+
 # Aveta
 
 <h1 align="center">
@@ -7,12 +11,12 @@
 
 <h4 align="center">Convert large numbers into concise, human-readable formats easily.</h4>
 
-| Input :disappointed: | Output :joy:   |
-| -------------------- | -------------- |
-| `6000`               | `'6K'`         |
-| `10000`              | `'10K'`        |
-| `42500`              | `'42.5K'`      |
-| `1250000`            | `'1.25M'`      |
+| Input :disappointed: | Output :joy: |
+| -------------------- | ------------ |
+| `6000`               | `'6K'`       |
+| `10000`              | `'10K'`      |
+| `42500`              | `'42.5K'`    |
+| `1250000`            | `'1.25M'`    |
 
 ## Installation
 
@@ -72,6 +76,28 @@ aveta(1440000, {
 // '1.44 MB'
 ```
 
+### AvetaReverse
+
+Aveta also supports reversing the human-readable format back to a numeric value using the `avetaReverse` function.
+
+```typescript
+avetaReverse(value: string): number;
+```
+
+```js
+import { avetaReverse } from 'aveta';
+
+// For CommonJS: `const { avetaReverse } = require('aveta');`
+
+avetaReverse('8.7K'); // 8700
+
+avetaReverse('123k'); // 123000
+
+avetaReverse('4.57k'); // 4570
+
+avetaReverse('2.48m'); // 2480000
+```
+
 ### Command Line Usage
 
 You can also use `aveta` directly in the terminal.
@@ -91,103 +117,19 @@ aveta --help
 
 ## Default Options
 
-| Name               | Type                             | Default                                 | Description                                                                 |
-| ------------------ | -------------------------------- | --------------------------------------- | --------------------------------------------------------------------------- |
-| `precision`        | `number`                         | `1`                                     | Number of decimal places to round to                                        |
-| `digits`           | `number`                         | `0`                                     | Number of significant digits to display                                     |
-| `separator`        | `string`                         | `'.'`                                   | Decimal separator (e.g. `.` or `,`)                                         |
-| `lowercase`        | `boolean`                        | `false`                                 | Output unit abbreviations in lowercase                                      |
-| `space`            | `boolean`                        | `false`                                 | Insert a space between the number and unit abbreviation                     |
-| `units`            | `Array<string>`                  | `['', 'K', 'M', 'B', 'T', 'P', 'E']`    | Units to use for thousand, million, billion, etc.                           |
-| `base`             | `number`                         | `1000`                                  | Base to scale numbers (default is 1000 for K, M, etc.)                      |
-| `roundingMode`     | `'up' \| 'down' \| 'nearest'`    | `'nearest'`                             | How numbers are rounded: nearest, always up, or always down                 |
-| `threshold`        | `number`                         | `0`                                     | Minimum value before unit conversion is applied                             |
-| `negativeFormat`   | `'prefix' \| 'parentheses'`      | `'prefix'`                              | How negative numbers are displayed (e.g., with `-` or in parentheses)       |
-| `scientificNotation`| `boolean`                       | `false`                                 | Use scientific notation for very large/small numbers                        |
-| `localizedUnits`   | `{ [locale: string]: string[] }` | `undefined`                             | Provide localized units for different locales                               |
-| `numberFormat`     | `(value: number) => string`      | `undefined`                             | Custom function to format numbers                                           |
+## Default Options
 
----
-
-### New Options
-
-#### **`base`**
-
-Specifies the base used for scaling the number. The default is `1000` (e.g., `K` for thousand), but you can change this to another base like `1024` for file sizes (e.g., `KB`, `MB`).
-
-```js
-aveta(1048576, { base: 1024, units: ['B', 'KB', 'MB', 'GB'] });
-// '1 MB'
-```
-
-#### **`roundingMode`**
-
-Controls how numbers are rounded:
-
-- `'nearest'` (default): rounds to the nearest number.
-- `'up'`: always rounds up.
-- `'down'`: always rounds down.
-
-```js
-aveta(4567, { roundingMode: 'up' });
-// '5K'
-```
-
-#### **`threshold`**
-
-Sets a threshold value below which numbers will not be formatted with units. For example, if the threshold is `1000`, any number below `1000` will be returned as is.
-
-```js
-aveta(999, { threshold: 1000 });
-// '999'
-```
-
-#### **`negativeFormat`**
-
-Controls how negative numbers are displayed:
-
-- `'prefix'` (default): negative numbers are prefixed with a minus sign (`-`).
-- `'parentheses'`: negative numbers are enclosed in parentheses.
-
-```js
-aveta(-5000, { negativeFormat: 'parentheses' });
-// '(5K)'
-```
-
-#### **`scientificNotation`**
-
-If `true`, very large or small numbers will be displayed in scientific notation.
-
-```js
-aveta(1e12, { scientificNotation: true });
-// '1.00e+12'
-```
-
-#### **`localizedUnits`**
-
-Allows the specification of units based on locale. You can pass an object where the keys are locale strings and the values are arrays of unit abbreviations.
-
-```js
-aveta(1440000, {
-  localizedUnits: {
-    en: ['B', 'KB', 'MB', 'GB', 'TB'],
-    fr: ['o', 'Ko', 'Mo', 'Go', 'To'],
-  },
-});
-// '1.44 MB' (in English)
-// '1,44 Mo' (in French)
-```
-
-#### **`numberFormat`**
-
-Provides a custom function to format the number before applying unit abbreviations. This is useful for complex formatting needs.
-
-```js
-aveta(12345, {
-  numberFormat: (value) => value.toLocaleString('en-US', { style: 'currency', currency: 'USD' }),
-});
-// '$12,345'
-```
+| Name           | Type                          | Default                              | Description                                                         |
+| -------------- | ----------------------------- | ------------------------------------ | ------------------------------------------------------------------- |
+| `precision`    | `number`                      | `1`                                  | Number of decimal places to round to                                |
+| `digits`       | `number`                      | `0`                                  | Number of significant digits to display                             |
+| `separator`    | `string`                      | `'.'`                                | Decimal separator (e.g. `.` or `,`)                                 |
+| `lowercase`    | `boolean`                     | `false`                              | Output unit abbreviations in lowercase                              |
+| `space`        | `boolean`                     | `false`                              | Insert a space between the number and unit abbreviation             |
+| `units`        | `Array<string>`               | `['', 'K', 'M', 'B', 'T', 'P', 'E']` | Units to use for thousand, million, billion, etc.                   |
+| `base`         | `number`                      | `1000`                               | Base to scale numbers (default is 1000 for K, M, etc.)              |
+| `roundingMode` | `'up' \| 'down' \| 'nearest'` | `'nearest'`                          | How numbers are rounded: nearest, always up, or always down(coming) |
+| `threshold`    | `number`                      | `0`                                  | Minimum value before unit conversion is applied (coming)            |
 
 ---
 

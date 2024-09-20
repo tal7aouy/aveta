@@ -1,12 +1,15 @@
 import { IOptions, Options } from './options';
 
+const DIGIT_BASE = 1000;
+
 /**
  * Generator that divides a number until a decimal value is found.
- * Allows custom base.
+ *
+ * e.g. 1,000,000 is grouped in multiples of 1000.
  */
-function* generator(value: number, base: number): IterableIterator<number> {
+function* generator(value: number): IterableIterator<number> {
   // Create a mutable copy of the base.
-  let divisor = base;
+  let divisor = DIGIT_BASE;
 
   while (true) {
     const result = value / divisor;
@@ -17,7 +20,7 @@ function* generator(value: number, base: number): IterableIterator<number> {
 
     yield result;
 
-    divisor *= base; // Use the dynamic base
+    divisor *= DIGIT_BASE;
   }
 }
 
@@ -38,11 +41,10 @@ function parseValue(value: number): number {
 
 /**
  * Rounds a number [value] up to a specified [precision].
- * Adds support for roundingMode: 'up', 'down', 'nearest'.
  */
 function roundTo(
   value: number,
-  { precision, digits, roundingMode }: { precision: number; digits: number; roundingMode: 'up' | 'down' | 'nearest' },
+  { precision, digits }: { precision: number; digits: number },
 ): number {
   if (!Number.isFinite(value)) {
     throw new Error('Input value is not an infinite number');
@@ -56,15 +58,10 @@ function roundTo(
   if (Number.isInteger(value)) {
     return value;
   }
-
-  let factor = Math.pow(10, precision);
-  if (roundingMode === 'up') {
-    return Math.ceil(value * factor) / factor;
-  } else if (roundingMode === 'down') {
-    return Math.floor(value * factor) / factor;
-  } else {
-    return Math.round(value * factor) / factor;
-  }
+  // check if digits is great than 0
+  return digits > 0
+    ? parseFloat(value.toPrecision(digits))
+    : parseFloat(value.toFixed(precision));
 }
 
 /**
@@ -81,24 +78,16 @@ function aveta(value: number, options?: Partial<IOptions>): string {
   // Validate value for type and length.
   let val = parseValue(value);
 
-  // Handle values below the threshold, just return the original value
-  if (Math.abs(val) < opts.threshold) {
-    return val.toString();
-  }
-
-  // Add a minus sign (-) or parentheses if it's a negative number.
-  let prefix = '';
-  if (val < 0) {
-    prefix = opts.negativeFormat === 'parentheses' ? '(' : '-';
-  }
+  // Add a minus sign (-) prefix if it's a negative number.
+  const prefix = val < 0 ? '-' : '';
 
   // Work only with positive values for simplicity's sake.
   val = Math.abs(val);
 
-  // Keep dividing the input value by the dynamic base
+  // Keep dividing the input value by the digit grouping base
   // until the decimal and the unit index is deciphered.
   let unitIndex = 0;
-  for (const result of generator(val, opts.base || 1000)) {
+  for (const result of generator(val)) {
     val = result;
     unitIndex += 1;
   }
@@ -110,16 +99,11 @@ function aveta(value: number, options?: Partial<IOptions>): string {
     return value.toString();
   }
 
-  // Round decimal up to desired precision using the chosen rounding mode.
-  let rounded = roundTo(val, { precision: opts.precision, digits: opts.digits, roundingMode: opts.roundingMode || 'nearest' });
+  // Round decimal up to desired precision.
+  let rounded = roundTo(val, opts);
 
-  // Scientific notation if needed
-  if (opts.scientificNotation && (val >= 1e6 || val < 1e-3)) {
-    return `${prefix}${val.toExponential(opts.precision)}`;
-  }
-
-  // The rounded value might need another iteration in the generator(divider) cycle.
-  for (const result of generator(rounded, opts.base || 1000)) {
+  // The rounded value needs another iteration in the generator(divider) cycle.
+  for (const result of generator(rounded)) {
     rounded = result;
     unitIndex += 1;
   }
@@ -136,13 +120,43 @@ function aveta(value: number, options?: Partial<IOptions>): string {
     .toString()
     .replace(Options.separator, opts.separator);
 
-  // Handle negative format (parentheses)
-  const finalOutput = `${prefix}${formatted}${space}${suffix}`;
-  return opts.negativeFormat === 'parentheses' && prefix === '('
-    ? `${finalOutput})`
-    : finalOutput;
+  return `${prefix}${formatted}${space}${suffix}`;
 }
 
-export { aveta };
+function avetaReverse(formattedValue: string, options?: Partial<IOptions>): number {
+  const opts: IOptions = options ? { ...Options, ...options } : Options;
+  
+  // Remove any spaces and convert to uppercase for consistency
+  const cleanedValue = formattedValue.replace(/\s/g, '').toUpperCase();
+  
+  // Extract the numeric part and the unit
+  const match = cleanedValue.match(/^(-?\(?)([\d.,]+)([A-Z]*)(\)?)?$/);
+  if (!match) {
+    throw new Error('Invalid formatted value');
+  }
+  
+  const [, sign, numericPart, unit] = match;
+  
+  // Parse the numeric part
+  const number = parseFloat(numericPart.replace(opts.separator, '.'));
+  
+  // Find the unit index
+  const unitIndex = opts.units.findIndex(u => u.toUpperCase() === unit);
+  
+  if (unitIndex === -1 && unit !== '') {
+    throw new Error('Unknown unit');
+  }
+  
+  let originalValue = number * Math.pow(opts.base ?? 1000, unitIndex);
+  
+  // Adjust for potential rounding errors
+  const magnitude = Math.pow(10, opts.precision);
+  originalValue = Math.round(originalValue * magnitude) / magnitude;
+
+  // Apply the sign
+  return sign === '-' || sign === '(' ? -originalValue : originalValue;
+}
+
+export { aveta, avetaReverse };
 
 export default aveta;
