@@ -123,32 +123,35 @@ function aveta(value: number, options?: Partial<IOptions>): string {
   return `${prefix}${formatted}${space}${suffix}`;
 }
 
-function avetaReverse(formattedValue: string, options?: Partial<IOptions>): number {
+function avetaReverse(
+  formattedValue: string,
+  options?: Partial<IOptions>,
+): number {
   const opts: IOptions = options ? { ...Options, ...options } : Options;
-  
+
   // Remove any spaces and convert to uppercase for consistency
   const cleanedValue = formattedValue.replace(/\s/g, '').toUpperCase();
-  
+
   // Extract the numeric part and the unit
   const match = cleanedValue.match(/^(-?\(?)([\d.,]+)([A-Z]*)(\)?)?$/);
   if (!match) {
     throw new Error('Invalid formatted value');
   }
-  
+
   const [, sign, numericPart, unit] = match;
-  
+
   // Parse the numeric part
   const number = parseFloat(numericPart.replace(opts.separator, '.'));
-  
+
   // Find the unit index
-  const unitIndex = opts.units.findIndex(u => u.toUpperCase() === unit);
-  
+  const unitIndex = opts.units.findIndex((u) => u.toUpperCase() === unit);
+
   if (unitIndex === -1 && unit !== '') {
     throw new Error('Unknown unit');
   }
-  
+
   let originalValue = number * Math.pow(opts.base ?? 1000, unitIndex);
-  
+
   // Adjust for potential rounding errors
   const magnitude = Math.pow(10, opts.precision);
   originalValue = Math.round(originalValue * magnitude) / magnitude;
