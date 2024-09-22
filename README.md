@@ -1,7 +1,3 @@
-Here's the `README` for the Aveta library, with AvetaReverse included:
-
----
-
 # Aveta
 
 <h1 align="center">
