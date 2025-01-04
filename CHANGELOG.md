@@ -20,15 +20,16 @@ All notable changes to this project will be documented in this file.
 
 - update readme
 - specify a maximum number of significant digits for a number
- ## [1.3.0] (Mar-24-2023)
+
+## [1.3.0] (Mar-24-2023)
 
 - update readme
 - specify a maximum number of significant digits for a number
- 
 
 ## [1.4.0] (Upcoming)
 
 ### Added
+
 - **Custom base scaling**: Introduced the `base` option, allowing users to specify a custom base for scaling numbers (e.g., 1000 or 1024 for file sizes).
 - **Rounding mode**: Added `roundingMode` option with values `'up'`, `'down'`, or `'nearest'` to control how numbers are rounded.
 - **Threshold for formatting**: Added `threshold` option to set a minimum value for applying unit conversion (below the threshold, the number will be returned as-is).
@@ -38,4 +39,9 @@ All notable changes to this project will be documented in this file.
 - **Custom number format**: Added the `numberFormat` option, which allows the use of a custom function to format numbers before unit conversion.
 
 ### Updated
+
 - **Documentation**: Updated the README to reflect the new options added in this release.
+
+## [1.5.0] (Jan-04-2025)
+
+- Add rounding mode
