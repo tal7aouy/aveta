@@ -19,6 +19,11 @@ export interface IOptions {
    */
   precision: number;
   /**
+   * How numbers are rounded: nearest, always up, or always down
+   * @default 'nearest'
+   */
+  roundingMode?: 'up' | 'down' | 'nearest';
+  /**
    * maximum number of significant digits
    */
   digits: number;
@@ -48,6 +53,7 @@ export const Options: IOptions = {
   separator: '.',
   lowercase: false,
   precision: 1,
+  roundingMode: 'nearest',
   digits: 0,
   space: false,
   base: 1000,

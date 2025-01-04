@@ -158,3 +158,42 @@ describe('avetaReverse', () => {
     expect(avetaReverse('1M', { base: 1024 })).toBe(1048576);
   });
 });
+
+describe('aveta rounding modes', () => {
+  it('rounds up when specified', () => {
+    const map = new Map([
+      [1234, '1.2K'], // 1234 -> 1.234K -> 1.2K
+      [1567, '1.6K'], // 1567 -> 1.567K -> 1.6K
+      [9400, '9.4K'], // 9400 -> 9.4K -> 9.4K
+    ]);
+    for (const [value, expected] of map) {
+      expect(aveta(value, { roundingMode: 'up' })).toEqual(expected);
+    }
+  });
+  it('rounds down when specified', () => {
+    const map = new Map([
+      [1240, '1.2K'], // 1.240K rounds down to 1.2K
+      [1340, '1.3K'], // 1.340K rounds down to 1.3K
+      [1440, '1.4K'], // 1.440K rounds down to 1.4K
+      [1540, '1.5K'], // 1.540K rounds down to 1.5K
+    ]);
+
+    for (const [value, expected] of map) {
+      const result = aveta(value, {
+        roundingMode: 'down',
+        precision: 1,
+      });
+      expect(result).toEqual(expected);
+    }
+  });
+
+  it('respects precision with rounding modes', () => {
+    expect(aveta(1234, { precision: 2, roundingMode: 'up' })).toEqual('1.23K');
+    expect(aveta(1234, { precision: 2, roundingMode: 'down' })).toEqual(
+      '1.23K',
+    );
+    expect(aveta(1234, { precision: 2, roundingMode: 'nearest' })).toEqual(
+      '1.23K',
+    );
+  });
+});

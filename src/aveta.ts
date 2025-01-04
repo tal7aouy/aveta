@@ -44,7 +44,15 @@ function parseValue(value: number): number {
  */
 function roundTo(
   value: number,
-  { precision, digits }: { precision: number; digits: number },
+  {
+    precision,
+    digits,
+    roundingMode = 'nearest',
+  }: {
+    precision: number;
+    digits: number;
+    roundingMode: 'up' | 'down' | 'nearest';
+  },
 ): number {
   if (!Number.isFinite(value)) {
     throw new Error('Input value is not an infinite number');
@@ -58,10 +66,24 @@ function roundTo(
   if (Number.isInteger(value)) {
     return value;
   }
-  // check if digits is great than 0
-  return digits > 0
-    ? parseFloat(value.toPrecision(digits))
-    : parseFloat(value.toFixed(precision));
+
+  const result =
+    digits > 0
+      ? parseFloat(value.toPrecision(digits))
+      : parseFloat(value.toFixed(precision));
+
+  const multiplier = Math.pow(10, precision);
+  const shifted = result * multiplier;
+
+  switch (roundingMode) {
+    case 'up':
+      return Math.ceil(shifted) / multiplier;
+    case 'down':
+      return Math.floor(shifted) / multiplier;
+    default:
+      // 'nearest'
+      return Math.round(shifted) / multiplier;
+  }
 }
 
 /**
@@ -100,8 +122,12 @@ function aveta(value: number, options?: Partial<IOptions>): string {
   }
 
   // Round decimal up to desired precision.
-  let rounded = roundTo(val, opts);
-
+  const { precision, digits, roundingMode = 'nearest' } = opts;
+  let rounded = roundTo(val, {
+    precision,
+    digits,
+    roundingMode,
+  });
   // The rounded value needs another iteration in the generator(divider) cycle.
   for (const result of generator(rounded)) {
     rounded = result;
