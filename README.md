@@ -124,7 +124,7 @@ aveta --help
 | `space`        | `boolean`                     | `false`                              | Insert a space between the number and unit abbreviation             |
 | `units`        | `Array<string>`               | `['', 'K', 'M', 'B', 'T', 'P', 'E']` | Units to use for thousand, million, billion, etc.                   |
 | `base`         | `number`                      | `1000`                               | Base to scale numbers (default is 1000 for K, M, etc.)              |
-| `roundingMode` | `'up' \| 'down' \| 'nearest'` | `'nearest'`                          | How numbers are rounded: nearest, always up, or always down(coming) |
+| `roundingMode` | `'up' \| 'down' \| 'nearest'` | `'nearest'`                          | How numbers are rounded: nearest, always up, or always down |
 | `threshold`    | `number`                      | `0`                                  | Minimum value before unit conversion is applied (coming)            |
 
 ---
